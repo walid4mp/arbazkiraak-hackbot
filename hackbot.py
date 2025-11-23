@@ -1,9 +1,8 @@
-#!/usr/bin/python
+#!/usr/bin/python3
 import time
 import subprocess
 import telepot
 import os
-import urllib2
 import re
 import json
 import datetime
@@ -11,30 +10,203 @@ import requests
 import threading
 import wikipedia
 from bs4 import BeautifulSoup
-from urllib2 import urlopen
+from urllib.request import urlopen, Request
 import youtube_dl
 
-def handle(msg):
-		chat_id = msg['chat']['id']
-		command = msg['text']
 
-		print "Got Command : %s " %command
-		bot.sendMessage(chat_id,'\xF0\x9F\x98\x81 Welcome to -+ HackBot v1.2 +- (https://goo.gl/mxQ4Sv) \xE2\x9C\x94')
-	
-	#welcome screen and help
-		if command.startswith('help') or command.startswith('/start'):
-				bot.sendMessage(chat_id,'\xF0\x9F\x98\x9A HELP MENU: ')
-				bot.sendMessage(chat_id,'1. Run built-in tools : example -> nmap -sV site.com')
-				bot.sendMessage(chat_id,'2. Give Foldername and Command : example -> tool foldername python scriptname.py\n')
-				bot.sendMessage(chat_id,'3. BTC Rate : example -> btc usd or btc anycurrency')
-				bot.sendMessage(chat_id,'4. Hackerone Disclosed Bugs : usage : h1bugs')
-				bot.sendMessage(chat_id,'5. Get Tweets of any search and times : usage : tweet bugbounty 5 or tweet motivation 3')
-				bot.sendMessage(chat_id,'6. Get details of HackerOne disclosed report: usage: #152407 \n A # sign followed by the report number')
-				bot.sendMessage(chat_id,'7. Hackerone Disclosed Bugs for specific program: usage: h1bugs programname')
-				bot.sendMessage(chat_id,'8. Get automatically notified about latest HackerOne Disclosure: usage: notifyh1')
-				bot.sendMessage(chat_id,'9. Search Wikipedia. usage: wiki yourtiopic')
-				bot.sendMessage(chat_id,'10. Get YouTube videos delivered right to your box in mp3 format: usage: yt musicname')
-				bot.sendMessage(chat_id,'11. Get motivated every hour. Just text -> motivateme')
+def handle(msg):
+    chat_id = msg['chat']['id']
+    command = msg.get('text', "")
+
+    print("Got Command : %s" % command)
+    bot.sendMessage(chat_id, '😁 Welcome to -+ HackBot v1.2 +- (https://goo.gl/mxQ4Sv) ✔')
+
+    # ---------- HELP ----------
+    if command.startswith('help') or command.startswith('/start'):
+        bot.sendMessage(chat_id, '😊 HELP MENU:')
+        bot.sendMessage(chat_id, '1. Run built‑in tools : nmap -sV site.com')
+        bot.sendMessage(chat_id, '2. Folder + Command : tool foldername python script.py')
+        bot.sendMessage(chat_id, '3. BTC Price : btc usd')
+        bot.sendMessage(chat_id, '4. HackerOne bugs : h1bugs')
+        bot.sendMessage(chat_id, '5. Tweets search : tweet bugbounty 5')
+        bot.sendMessage(chat_id, '6. HackerOne report : #152407')
+        bot.sendMessage(chat_id, '7. Program‑specific H1 bugs : h1bugs programname')
+        bot.sendMessage(chat_id, '8. Auto H1 notify : notifyh1')
+        bot.sendMessage(chat_id, '9. Wikipedia search : wiki topic')
+        bot.sendMessage(chat_id, '10. YouTube → mp3 : yt music')
+        bot.sendMessage(chat_id, '11. Motivate every hour : motivateme')
+        return
+
+    # ---------- AUTO H1 NOTIFY ----------
+    def notifyh1():
+        site = requests.get(
+            'https://hackerone.com/hacktivity.json?sort_type=latest_disclosable_activity_at&filter=type%3Apublic'
+        )
+        json_data = site.json()
+        rep_id = json_data['reports'][0]['id']
+        rep_str = str(rep_id)
+
+        if os.path.exists('latest.txt'):
+            with open('latest.txt', 'r') as rmf:
+                old = rmf.read().strip()
+        else:
+            old = ""
+
+        if old != rep_str:
+            with open('latest.txt', 'w') as wmf:
+                wmf.write(rep_str)
+            bot.sendMessage(chat_id, "🐞 New Bug Disclosed on H1 🐞")
+            bot.sendMessage(chat_id, "Title: " + json_data['reports'][0]['title'])
+
+        bot.sendMessage(chat_id, "https://hackerone.com" + json_data['reports'][0]['url'])
+        threading.Timer(300, notifyh1).start()
+
+    if command.lower().startswith('notifyh1'):
+        notifyh1()
+        return
+
+    # ---------- TOOL ----------
+    if command.lower().startswith('tool'):
+        words = command.split()
+        folder = words[1]
+        cmd = " ".join(words[2:])
+        directory = '/root/Desktop/pentest/' + folder
+
+        bot.sendMessage(chat_id, "💼 Path: " + directory)
+
+        if os.path.isdir(directory):
+            os.chdir(directory)
+            bot.sendMessage(chat_id, "📁 Changed directory: " + directory)
+            bot.sendMessage(chat_id, "🐍 " + cmd)
+            bot.sendMessage(chat_id, "💻 Running...")
+
+            try:
+                output = subprocess.check_output(cmd, shell=True, stderr=subprocess.STDOUT)
+                bot.sendMessage(chat_id, output.decode('utf-8'))
+            except Exception as e:
+                bot.sendMessage(chat_id, "Error: " + str(e))
+        else:
+            bot.sendMessage(chat_id, "Folder not found!")
+        return
+
+    # ---------- WIKIPEDIA ----------
+    if command.lower().startswith('wiki'):
+        try:
+            query = command[5:]
+            result = wikipedia.summary(query, sentences=10)
+            page = wikipedia.page(query).url
+            bot.sendMessage(chat_id, result + "\n" + page)
+        except Exception as e:
+            bot.sendMessage(chat_id, "Error: " + str(e))
+        return
+
+    # ---------- BTC PRICE ----------
+    if command.lower().startswith('btc'):
+        currency = command[4:]
+        url = "https://www.google.com/search?q=bitcoin+to+" + currency
+        req = Request(url, headers={'User-Agent': 'Mozilla/5.0'})
+        data = urlopen(req).read().decode("utf-8")
+
+        match = re.search("1 Bitcoin = ([0-9,\.]+)", data)
+        if match:
+            bot.sendMessage(chat_id, f"1 BTC = {match.group(1)} {currency}")
+        return
+
+    # ---------- H1 BUGS ----------
+    if command.lower().startswith('h1bugs'):
+        program = command[7:].strip()
+
+        bot.sendMessage(chat_id, "🚀 Loading HackerOne bugs...")
+
+        if program:
+            url = f'https://hackerone.com/hacktivity.json?filter=type%3Apublic%20to%3A{program}'
+        else:
+            url = 'https://hackerone.com/hacktivity.json?sort_type=latest_disclosable_activity_at&filter=type%3Apublic'
+
+        js = requests.get(url).json()
+
+        for i in range(10):
+            try:
+                title = js['reports'][i]['title']
+                link = "https://hackerone.com" + js['reports'][i]['url']
+                bot.sendMessage(chat_id, "Title: " + title)
+                bot.sendMessage(chat_id, link)
+            except:
+                pass
+        return
+
+    # ---------- H1 REPORT ----------
+    if command.startswith('#'):
+        repnum = command[1:]
+        bot.sendMessage(chat_id, "🚀 Loading report...")
+        js = requests.get(f'https://hackerone.com/reports/{repnum}.json').json()
+
+        title = js['title']
+        reporter = js['reporter']['username']
+        state = js['readable_substate']
+        url = f"https://hackerone.com/reports/{repnum}"
+
+        bot.sendMessage(chat_id,
+                        f"(#{repnum}) {title} — by {reporter} ({state})\n{url}")
+
+        if js.get("has_bounty?"):
+            bot.sendMessage(chat_id, "Bounty: " + js["formatted_bounty"])
+
+        bot.sendMessage(chat_id, js["vulnerability_information"])
+        return
+
+    # ---------- YOUTUBE TO MP3 ----------
+    if command.lower().startswith('yt'):
+        search = command[3:]
+        html = urlopen("https://www.youtube.com/results?search_query=" + search).read()
+        soup = BeautifulSoup(html, "html.parser")
+        vid = soup.find("a", {"class": "yt-uix-tile-link"})
+
+        link = "https://www.youtube.com" + vid['href']
+        title = vid['title']
+        short = title[:12]
+
+        bot.sendMessage(chat_id, title + "\n" + link)
+
+        options = {
+            'format': 'bestaudio/best',
+            'postprocessors': [{
+                'key': 'FFmpegExtractAudio',
+                'preferredcodec': 'mp3',
+                'preferredquality': '320'
+            }]
+        }
+
+        with youtube_dl.YoutubeDL(options) as ydl:
+            ydl.download([link])
+
+        for f in os.listdir('.'):
+            if short in f and f.endswith(".mp3"):
+                bot.sendAudio(chat_id, audio=open(f, 'rb'))
+                os.remove(f)
+        return
+
+    # ---------- DEFAULT = RUN SYSTEM COMMAND ----------
+    bot.sendMessage(chat_id, "😈 [+] Got Command")
+    bot.sendMessage(chat_id, command)
+    bot.sendMessage(chat_id, "💻 Running...")
+
+    try:
+        out = subprocess.check_output(command, shell=True, stderr=subprocess.STDOUT)
+        bot.sendMessage(chat_id, out.decode())
+    except Exception as e:
+        bot.sendMessage(chat_id, "Error: " + str(e))
+
+
+# ---------- BOT START ----------
+api = open('api.txt', 'r').read().strip()
+bot = telepot.Bot(api)
+bot.message_loop(handle)
+
+print("[+] Server is Listening [+]")
+
+while True:
+    time.sleep(10)				bot.sendMessage(chat_id,'11. Get motivated every hour. Just text -> motivateme')
 				return 0
 			#end welcome
 		
